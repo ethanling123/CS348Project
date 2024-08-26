@@ -5,6 +5,10 @@ name = "pypi"
 
 [packages]
 python-dotenv = "*"
+django = "*"
+django-cors-headers = "*"
+psycopg = "*"
+psycopg2 = "*"
 
 [dev-packages]
 
