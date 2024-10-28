@@ -1,6 +1,6 @@
 /* Dashboard container styling */
 .dashboard-container {
-    max-width: 1600px;  /* Increased max width */
+    max-width: 1600px; /* Increased max width */
     margin: 0 auto;
     padding: 2rem;
     background-color: #1a1a1a;
@@ -13,7 +13,7 @@
 .dashboard-container h1 {
     text-align: center;
     font-size: 3.5em;
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
     color: #61dafb;
     animation: slideIn 0.5s ease-in-out;
 }
@@ -41,26 +41,27 @@ ul {
     align-items: center;
     justify-content: space-between;
     background-color: #333;
-    padding: 1rem;
+    padding: 1.2rem;
     margin: 0.8rem 0;
     border-radius: 8px;
     transition: background-color 0.3s, transform 0.2s;
+    gap: 1rem;
 }
 
 /* Align product name, badges, and stock info */
 .product-name {
-    flex: 2;
+    flex: 3;
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1.4rem;
     color: white;
 }
 
 .badge {
     display: inline-block;
-    padding: 0.4rem 0.8rem;
+    padding: 0.4rem 1rem;
     margin-left: 10px;
     border-radius: 12px;
-    font-size: 0.9rem;
+    font-size: 1rem;
     font-weight: 600;
     color: white;
 }
@@ -83,14 +84,14 @@ ul {
 /* Hover effect for product items */
 .product-item:hover {
     background-color: #535bf2;
-    transform: scale(1.02);
+    transform: scale(1.03);
 }
 
-/* Form styling */
+/* Report form styling */
 .report-form {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
     margin-bottom: 2rem;
 }
 
@@ -114,11 +115,11 @@ ul {
 /* Responsive layout for smaller screens */
 @media (max-width: 768px) {
     .dashboard-container {
-        max-width: 100%;
+        max-width: 95%; /* Adjust to fit smaller screens */
     }
 
     .report-form {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Stack form inputs vertically */
     }
 
     .product-item {
@@ -128,6 +129,7 @@ ul {
 
     .product-name {
         margin-bottom: 0.5rem;
+        font-size: 1.2rem;
     }
 
     .stock-quantity {

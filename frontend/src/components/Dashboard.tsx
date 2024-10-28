@@ -39,10 +39,12 @@ const Dashboard: React.FC = () => {
     useEffect(() => {
         axios
             .get("http://localhost:8000/api/categories/")
-            .then((res) => setCategories(res.data));
+            .then((res) => setCategories(res.data))
+            .catch((err) => console.error("Error fetching categories:", err));
         axios
             .get("http://localhost:8000/api/suppliers/")
-            .then((res) => setSuppliers(res.data));
+            .then((res) => setSuppliers(res.data))
+            .catch((err) => console.error("Error fetching suppliers:", err));
     }, []);
 
     useEffect(() => {
@@ -76,10 +78,13 @@ const Dashboard: React.FC = () => {
                 }
             );
 
-            setFilteredProducts(response.data.products);
-            setStatistics(response.data.statistics);
+            const { products, statistics } = response.data;
+            setFilteredProducts(products || []);
+            setStatistics(statistics || { total_products: 0, avg_stock: 0 });
         } catch (error) {
             console.error("Error fetching report:", error);
+            setFilteredProducts([]);
+            setStatistics({ total_products: 0, avg_stock: 0 });
         }
     };
 
@@ -133,25 +138,32 @@ const Dashboard: React.FC = () => {
             <div className="report-results">
                 <h2>Report Results</h2>
                 <p>Total Products: {statistics.total_products}</p>
-                <p>Average Stock: {statistics.avg_stock.toFixed(2)}</p>
+                <p>Average Stock: {(statistics.avg_stock || 0).toFixed(2)}</p>
 
-                <ul>
-                    {filteredProducts.map((product) => (
-                        <li key={product.id} className="product-item">
-                            <span className="product-name">{product.name}</span>
-                            {/* Render category and supplier badges */}
-                            <span className="badge category-badge">
-                                {product.category__name || "No Category"}
-                            </span>
-                            <span className="badge supplier-badge">
-                                {product.supplier__name || "No Supplier"}
-                            </span>
-                            <span className="stock-quantity">
-                                {product.stock_quantity} in stock
-                            </span>
-                        </li>
-                    ))}
-                </ul>
+                {filteredProducts.length > 0 ? (
+                    <ul>
+                        {filteredProducts.map((product) => (
+                            <li key={product.id} className="product-item">
+                                <span className="product-name">
+                                    {product.name}
+                                </span>
+                                <span className="badge category-badge">
+                                    {product.category__name || "No Category"}
+                                </span>
+                                <span className="badge supplier-badge">
+                                    {product.supplier__name || "No Supplier"}
+                                </span>
+                                <span className="stock-quantity">
+                                    {product.stock_quantity} in stock
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
+                ) : (
+                    <p className="no-results">
+                        No products found for the selected filters.
+                    </p>
+                )}
             </div>
         </div>
     );
