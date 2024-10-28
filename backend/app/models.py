@@ -1,10 +1,12 @@
 from django.db import models
 
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.name
+
 
 class Supplier(models.Model):
     name = models.CharField(max_length=100)
@@ -12,6 +14,7 @@ class Supplier(models.Model):
 
     def __str__(self):
         return self.name
+
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
@@ -24,8 +27,11 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+
 class Transaction(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    transaction_type = models.CharField(max_length=50, choices=[('sale', 'Sale'), ('restock', 'Restock')])
+    transaction_type = models.CharField(
+        max_length=50, choices=[("sale", "Sale"), ("restock", "Restock")]
+    )
     quantity = models.IntegerField()
     transaction_date = models.DateTimeField(auto_now_add=True)

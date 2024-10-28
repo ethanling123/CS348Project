@@ -1,0 +1,31 @@
+/* Navbar container styling */
+nav {
+    background-color: #282c34;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Buttons inside the Navbar */
+nav button {
+    background-color: #61dafb;
+    color: #fff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.1s ease;
+}
+
+/* Hover effect for buttons */
+nav button:hover {
+    background-color: #21a1f1;
+    transform: scale(1.05);
+}

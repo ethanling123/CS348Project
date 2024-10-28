@@ -1,0 +1,160 @@
+/* Dashboard container styling */
+.dashboard-container {
+    max-width: 1600px;  /* Increased max width */
+    margin: 0 auto;
+    padding: 2rem;
+    background-color: #1a1a1a;
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Section heading styling */
+.dashboard-container h1 {
+    text-align: center;
+    font-size: 3.5em;
+    margin-bottom: 1rem;
+    color: #61dafb;
+    animation: slideIn 0.5s ease-in-out;
+}
+
+/* Product lists section */
+.product-list,
+.low-stock-list {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background-color: #242424;
+    border-radius: 10px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* List items styling */
+ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.product-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #333;
+    padding: 1rem;
+    margin: 0.8rem 0;
+    border-radius: 8px;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+/* Align product name, badges, and stock info */
+.product-name {
+    flex: 2;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: white;
+}
+
+.badge {
+    display: inline-block;
+    padding: 0.4rem 0.8rem;
+    margin-left: 10px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: white;
+}
+
+.category-badge {
+    background-color: #4caf50; /* Green for category */
+}
+
+.supplier-badge {
+    background-color: #2196f3; /* Blue for supplier */
+}
+
+.stock-quantity {
+    flex: 1;
+    font-size: 1rem;
+    color: #bbb;
+    text-align: right;
+}
+
+/* Hover effect for product items */
+.product-item:hover {
+    background-color: #535bf2;
+    transform: scale(1.02);
+}
+
+/* Form styling */
+.report-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+/* Form inputs */
+.report-form select,
+.report-form input {
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    background-color: #333;
+    color: white;
+    transition: border-color 0.3s;
+}
+
+.report-form select:focus,
+.report-form input:focus {
+    border-color: #61dafb;
+    outline: none;
+}
+
+/* Responsive layout for smaller screens */
+@media (max-width: 768px) {
+    .dashboard-container {
+        max-width: 100%;
+    }
+
+    .report-form {
+        grid-template-columns: 1fr;
+    }
+
+    .product-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .product-name {
+        margin-bottom: 0.5rem;
+    }
+
+    .stock-quantity {
+        text-align: left;
+        margin-top: 0.5rem;
+    }
+}
+
+/* Animations */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideIn {
+    0% {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
