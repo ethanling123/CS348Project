@@ -1,25 +1,46 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 interface Product {
   id: number;
   name: string;
   description: string;
-  stock_quantity: number;
   price: number;
+  stock_quantity: number;
+  category: number;
+  supplier: number;
+}
+
+interface Category {
+  id: number;
+  name: string;
+}
+
+interface Supplier {
+  id: number;
+  name: string;
 }
 
 const ProductList: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [suppliers, setSuppliers] = useState<Supplier[]>([]);
   const [newProduct, setNewProduct] = useState<Omit<Product, 'id'>>({
     name: '',
     description: '',
+    price: 0,
     stock_quantity: 0,
-    price: 0.0,
+    category: 0,
+    supplier: 0,
   });
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
 
-  // Fetch products from the backend
+  useEffect(() => {
+    fetchProducts();
+    fetchCategories();
+    fetchSuppliers();
+  }, []);
+
   const fetchProducts = async () => {
     try {
       const response = await axios.get('http://localhost:8000/api/products/');
@@ -29,46 +50,46 @@ const ProductList: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  const fetchCategories = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/api/categories/');
+      setCategories(response.data);
+    } catch (error) {
+      console.error('Error fetching categories:', error);
+    }
+  };
 
-  // Handle input changes
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const fetchSuppliers = async () => {
+    try {
+      const response = await axios.get('http://localhost:8000/api/suppliers/');
+      setSuppliers(response.data);
+    } catch (error) {
+      console.error('Error fetching suppliers:', error);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setNewProduct((prevProduct) => ({
       ...prevProduct,
-      [name]: value,
+      [name]: name === 'category' || name === 'supplier' ? parseInt(value) : value,
     }));
   };
 
-  // Add a new product
   const addProduct = async () => {
     try {
       await axios.post('http://localhost:8000/api/products/', newProduct);
-      fetchProducts(); // Refresh the product list
-      setNewProduct({ name: '', description: '', stock_quantity: 0, price: 0.0 });
+      setNewProduct({ name: '', description: '', price: 0, stock_quantity: 0, category: 0, supplier: 0 });
+      fetchProducts();
     } catch (error) {
       console.error('Error adding product:', error);
     }
   };
 
-  // Edit an existing product
-  const editProduct = async (product: Product) => {
-    try {
-      await axios.put(`http://localhost:8000/api/products/${product.id}/`, product);
-      fetchProducts(); // Refresh the product list
-      setEditingProduct(null); // Clear the editing state
-    } catch (error) {
-      console.error('Error editing product:', error);
-    }
-  };
-
-  // Delete a product
   const deleteProduct = async (id: number) => {
     try {
       await axios.delete(`http://localhost:8000/api/products/${id}/`);
-      fetchProducts(); // Refresh the product list
+      fetchProducts();
     } catch (error) {
       console.error('Error deleting product:', error);
     }
@@ -76,59 +97,63 @@ const ProductList: React.FC = () => {
 
   return (
     <div>
-      <h1>Product Management</h1>
+      <h1>Products</h1>
+      {editingProduct ? (
+        <div>
+          <h2>Edit Product: {editingProduct.name}</h2>
+          {/* Add your edit form here */}
+          <button onClick={() => setEditingProduct(null)}>Cancel Edit</button>
+        </div>
+      ) : (
+        <div>
+          <input
+            type="text"
+            name="name"
+            placeholder="Product Name"
+            value={newProduct.name}
+            onChange={handleInputChange}
+          />
+          <textarea
+            name="description"
+            placeholder="Description"
+            value={newProduct.description}
+            onChange={handleInputChange}
+          />
+          <select name="category" value={newProduct.category} onChange={handleInputChange}>
+            <option value="0">Select Category</option>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id}>
+                {category.name}
+              </option>
+            ))}
+          </select>
 
-      <div>
-        <h2>{editingProduct ? 'Edit Product' : 'Add Product'}</h2>
-        <input
-          type="text"
-          name="name"
-          placeholder="Product Name"
-          value={editingProduct ? editingProduct.name : newProduct.name}
-          onChange={(e) =>
-            editingProduct
-              ? setEditingProduct({ ...editingProduct, name: e.target.value })
-              : handleInputChange(e)
-          }
-        />
-        <textarea
-          name="description"
-          placeholder="Product Description"
-          value={editingProduct ? editingProduct.description : newProduct.description}
-          onChange={(e) =>
-            editingProduct
-              ? setEditingProduct({ ...editingProduct, description: e.target.value })
-              : handleInputChange(e)
-          }
-        />
-        <input
-          type="number"
-          name="stock_quantity"
-          placeholder="Stock Quantity"
-          value={editingProduct ? editingProduct.stock_quantity : newProduct.stock_quantity}
-          onChange={(e) =>
-            editingProduct
-              ? setEditingProduct({ ...editingProduct, stock_quantity: +e.target.value })
-              : handleInputChange(e)
-          }
-        />
-        <input
-          type="number"
-          step="0.01"
-          name="price"
-          placeholder="Price"
-          value={editingProduct ? editingProduct.price : newProduct.price}
-          onChange={(e) =>
-            editingProduct
-              ? setEditingProduct({ ...editingProduct, price: +e.target.value })
-              : handleInputChange(e)
-          }
-        />
-        <button onClick={editingProduct ? () => editProduct(editingProduct) : addProduct}>
-          {editingProduct ? 'Save Changes' : 'Add Product'}
-        </button>
-        {editingProduct && <button onClick={() => setEditingProduct(null)}>Cancel</button>}
-      </div>
+          <select name="supplier" value={newProduct.supplier} onChange={handleInputChange}>
+            <option value="0">Select Supplier</option>
+            {suppliers.map((supplier) => (
+              <option key={supplier.id} value={supplier.id}>
+                {supplier.name}
+              </option>
+            ))}
+          </select>
+          <input
+            type="number"
+            name="price"
+            placeholder="Price"
+            value={newProduct.price}
+            onChange={handleInputChange}
+          />
+          <input
+            type="number"
+            name="stock_quantity"
+            placeholder="Stock Quantity"
+            value={newProduct.stock_quantity}
+            onChange={handleInputChange}
+          />
+
+          <button onClick={addProduct}>Add Product</button>
+        </div>
+      )}
 
       <h2>All Products</h2>
       <ul>

@@ -3,6 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./components/Dashboard";
 import ProductList from "./components/ProductList";
 import CategoryList from './components/CategoryList';
+import SupplierList from './components/SupplierList';
 
 const App: React.FC = () => {
   return (
@@ -11,6 +12,7 @@ const App: React.FC = () => {
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/products" element={<ProductList />} />
       <Route path="/categories" element={<CategoryList />} />
+      <Route path="/suppliers" element={<SupplierList />} />
     </Routes>
   );
 };
