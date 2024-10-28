@@ -1,24 +1,29 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import "../styles/Navbar.css";
 
-const Navbar: React.FC = () => {
-    return (
-        <nav style={{ display: "flex", gap: "1rem", marginBottom: "2rem" }}>
-            <Link to="/dashboard">
-                <button>Home</button>
-            </Link>
-            <Link to="/products">
-                <button>Products</button>
-            </Link>
-            <Link to="/suppliers">
-                <button>Suppliers</button>
-            </Link>
-            <Link to="/categories">
-                <button>Categories</button>
-            </Link>
-        </nav>
-    );
-};
+const Navbar: React.FC = () => (
+    <nav className="flex justify-center gap-4 p-4 bg-gray-800 rounded-lg shadow-lg">
+        <Link to="/dashboard">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
+                Dashboard
+            </button>
+        </Link>
+        <Link to="/products">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
+                Products
+            </button>
+        </Link>
+        <Link to="/suppliers">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
+                Suppliers
+            </button>
+        </Link>
+        <Link to="/categories">
+            <button className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
+                Categories
+            </button>
+        </Link>
+    </nav>
+);
 
 export default Navbar;
