@@ -20,6 +20,7 @@ from .serializers import (
     CategorySerializer, 
     SupplierSerializer
 )
+from .db_reports import execute_low_stock_report, execute_product_report
 
 # Standard library
 import json
@@ -39,36 +40,27 @@ class SupplierViewSet(viewsets.ModelViewSet):
 
 @api_view(['GET'])
 def low_stock_report(request):
-    # Filter products with stock_quantity < 5
-    low_stock_products = Product.objects.filter(stock_quantity__lt=5).values('id', 'name', 'stock_quantity')
+    threshold = request.GET.get('threshold', 5)
+    try:
+        threshold = int(threshold)
+    except (TypeError, ValueError):
+        threshold = 5
+        
+    low_stock_products = execute_low_stock_report(threshold)
     return Response(low_stock_products)
 
 @api_view(['GET'])
 def product_report(request):
     category_id = request.GET.get('category')
     supplier_id = request.GET.get('supplier')
-    min_stock = request.GET.get('min_stock', 0)
-    max_stock = request.GET.get('max_stock', 9999)
+    min_stock = int(request.GET.get('min_stock', 0))
+    max_stock = int(request.GET.get('max_stock', 9999))
 
-    # Build filters dynamically based on query parameters
-    filters = Q(stock_quantity__gte=min_stock) & Q(stock_quantity__lte=max_stock)
-    if category_id:
-        filters &= Q(category_id=category_id)
-    if supplier_id:
-        filters &= Q(supplier_id=supplier_id)
-
-    # Query products with related category and supplier data
-    filtered_products = Product.objects.filter(filters).select_related('category', 'supplier').values(
-        'id', 'name', 'stock_quantity', 'category__name', 'supplier__name'
+    data = execute_product_report(
+        category_id=category_id,
+        supplier_id=supplier_id,
+        min_stock=min_stock,
+        max_stock=max_stock
     )
-
-    statistics = Product.objects.filter(filters).aggregate(
-        total_products=Count('id'),
-        avg_stock=Avg('stock_quantity')
-    )
-
-    data = {
-        'products': list(filtered_products),
-        'statistics': statistics
-    }
+    
     return Response(data)

@@ -10,6 +10,10 @@ django-cors-headers = "*"
 psycopg = "*"
 psycopg2 = "*"
 djangorestframework = "*"
+gunicorn = "*"
+psycopg2-binary = "*"
+dj-database-url = "*"
+whitenoise = "*"
 
 [dev-packages]
 
