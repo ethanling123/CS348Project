@@ -19,7 +19,7 @@ def execute_low_stock_report(threshold: int = 5) -> List[Dict[str, Any]]:
 def execute_product_report(category_id: str = None, 
                             supplier_id: str = None,
                             min_stock: int = 0,
-                            max_stock: int = 99999999999) -> Dict[str, Any]:
+                            max_stock: int = 2147483647) -> Dict[str, Any]:
     with connection.cursor() as cursor:
         query = """
             WITH filtered_products AS (
