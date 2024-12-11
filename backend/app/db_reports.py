@@ -17,9 +17,9 @@ def execute_low_stock_report(threshold: int = 5) -> List[Dict[str, Any]]:
         return [dict(zip(columns, row)) for row in cursor.fetchall()]
 
 def execute_product_report(category_id: str = None, 
-                         supplier_id: str = None,
-                         min_stock: int = 0,
-                         max_stock: int = 9999) -> Dict[str, Any]:
+                            supplier_id: str = None,
+                            min_stock: int = 0,
+                            max_stock: int = 2147483646) -> Dict[str, Any]:
     with connection.cursor() as cursor:
         query = """
             WITH filtered_products AS (
