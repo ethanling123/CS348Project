@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "../styles/Dashboard.css"; // Import CSS
+import { API_BASE_URL } from "../config/api";
 
 interface Product {
     id: number;
@@ -34,7 +35,9 @@ const Dashboard: React.FC = () => {
         total_products: 0,
         avg_stock: 0,
     });
-    const [lowStockProducts, setLowStockProducts] = useState<LowStockProduct[]>([]);
+    const [lowStockProducts, setLowStockProducts] = useState<LowStockProduct[]>(
+        []
+    );
 
     const [filters, setFilters] = useState({
         category: "",
@@ -45,11 +48,11 @@ const Dashboard: React.FC = () => {
 
     useEffect(() => {
         axios
-            .get("http://localhost:8000/api/categories/")
+            .get("${API_BASE_URL}/api/categories/")
             .then((res) => setCategories(res.data))
             .catch((err) => console.error("Error fetching categories:", err));
         axios
-            .get("http://localhost:8000/api/suppliers/")
+            .get("${API_BASE_URL}/api/suppliers/")
             .then((res) => setSuppliers(res.data))
             .catch((err) => console.error("Error fetching suppliers:", err));
         fetchLowStockAlerts();
@@ -75,7 +78,7 @@ const Dashboard: React.FC = () => {
 
         try {
             const response = await axios.get(
-                "http://localhost:8000/api/reports/products/",
+                `${API_BASE_URL}/api/reports/products/`,
                 {
                     params: {
                         category,
@@ -98,7 +101,9 @@ const Dashboard: React.FC = () => {
 
     const fetchLowStockAlerts = async () => {
         try {
-            const response = await axios.get("http://localhost:8000/api/reports/low-stock/");
+            const response = await axios.get(
+                `${API_BASE_URL}/api/reports/low-stock/`
+            );
             setLowStockProducts(response.data);
         } catch (error) {
             console.error("Error fetching low stock alerts:", error);
@@ -116,7 +121,9 @@ const Dashboard: React.FC = () => {
                     <ul>
                         {lowStockProducts.map((product) => (
                             <li key={product.id} className="alert-item">
-                                <span className="product-name">{product.name}</span>
+                                <span className="product-name">
+                                    {product.name}
+                                </span>
                                 <span className="stock-quantity warning">
                                     Only {product.stock_quantity} left in stock!
                                 </span>
