@@ -50,11 +50,11 @@ const Dashboard: React.FC = () => {
         console.log("API_BASE_URL:", API_BASE_URL);
 
         axios
-            .get(`${API_BASE_URL}/api/categories/`)
+            .get(`${API_BASE_URL}api/categories/`)
             .then((res) => setCategories(res.data))
             .catch((err) => console.error("Error fetching categories:", err));
         axios
-            .get(`${API_BASE_URL}/api/suppliers/`)
+            .get(`${API_BASE_URL}api/suppliers/`)
             .then((res) => setSuppliers(res.data))
             .catch((err) => console.error("Error fetching suppliers:", err));
         fetchLowStockAlerts();
@@ -80,7 +80,7 @@ const Dashboard: React.FC = () => {
 
         try {
             const response = await axios.get(
-                `${API_BASE_URL}/api/reports/products/`,
+                `${API_BASE_URL}api/reports/products/`,
                 {
                     params: {
                         category,
@@ -104,7 +104,7 @@ const Dashboard: React.FC = () => {
     const fetchLowStockAlerts = async () => {
         try {
             const response = await axios.get(
-                `${API_BASE_URL}/api/reports/low-stock/`
+                `${API_BASE_URL}api/reports/low-stock/`
             );
             setLowStockProducts(response.data);
         } catch (error) {
