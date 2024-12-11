@@ -22,7 +22,7 @@ const SupplierList: React.FC = () => {
 
     const fetchSuppliers = async () => {
         try {
-            const response = await axios.get("${API_BASE_URL}/api/suppliers/");
+            const response = await axios.get('${API_BASE_URL}/api/suppliers/');
             setSuppliers(response.data);
         } catch (error) {
             console.error("Error fetching suppliers:", error);
@@ -31,7 +31,7 @@ const SupplierList: React.FC = () => {
 
     const addSupplier = async () => {
         try {
-            await axios.post("${API_BASE_URL}/api/suppliers/", {
+            await axios.post('${API_BASE_URL}/api/suppliers/', {
                 name: newSupplier.name,
                 contact_info: newSupplier.contact_info,
             });
