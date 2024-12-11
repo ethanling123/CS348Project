@@ -160,3 +160,29 @@ ul {
         transform: translateX(0);
     }
 }
+
+.low-stock-alerts {
+    background-color: #ff44442d;
+    border: 1px solid #ff4444;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.alert-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    border-bottom: 1px solid #ff444455;
+}
+
+.alert-item:last-child {
+    border-bottom: none;
+}
+
+.stock-quantity.warning {
+    color: #ff4444;
+    font-weight: bold;
+}

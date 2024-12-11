@@ -14,12 +14,11 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 # Local imports
-from .models import Product, Category, Supplier, Transaction
+from .models import Product, Category, Supplier
 from .serializers import (
     ProductSerializer, 
     CategorySerializer, 
-    SupplierSerializer, 
-    TransactionSerializer
+    SupplierSerializer
 )
 
 # Standard library
@@ -37,10 +36,6 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class SupplierViewSet(viewsets.ModelViewSet):
     queryset = Supplier.objects.all()
     serializer_class = SupplierSerializer
-
-class TransactionViewSet(viewsets.ModelViewSet):
-    queryset = Transaction.objects.all()
-    serializer_class = TransactionSerializer
 
 @api_view(['GET'])
 def low_stock_report(request):

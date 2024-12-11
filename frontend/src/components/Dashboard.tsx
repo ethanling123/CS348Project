@@ -20,6 +20,12 @@ interface Supplier {
     name: string;
 }
 
+interface LowStockProduct {
+    id: number;
+    name: string;
+    stock_quantity: number;
+}
+
 const Dashboard: React.FC = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [suppliers, setSuppliers] = useState<Supplier[]>([]);
@@ -28,6 +34,7 @@ const Dashboard: React.FC = () => {
         total_products: 0,
         avg_stock: 0,
     });
+    const [lowStockProducts, setLowStockProducts] = useState<LowStockProduct[]>([]);
 
     const [filters, setFilters] = useState({
         category: "",
@@ -45,6 +52,7 @@ const Dashboard: React.FC = () => {
             .get("http://localhost:8000/api/suppliers/")
             .then((res) => setSuppliers(res.data))
             .catch((err) => console.error("Error fetching suppliers:", err));
+        fetchLowStockAlerts();
     }, []);
 
     useEffect(() => {
@@ -88,9 +96,35 @@ const Dashboard: React.FC = () => {
         }
     };
 
+    const fetchLowStockAlerts = async () => {
+        try {
+            const response = await axios.get("http://localhost:8000/api/reports/low-stock/");
+            setLowStockProducts(response.data);
+        } catch (error) {
+            console.error("Error fetching low stock alerts:", error);
+            setLowStockProducts([]);
+        }
+    };
+
     return (
         <div className="container">
             <h1>Inventory Dashboard</h1>
+
+            {lowStockProducts.length > 0 && (
+                <div className="low-stock-alerts">
+                    <h2>Low Stock Alerts</h2>
+                    <ul>
+                        {lowStockProducts.map((product) => (
+                            <li key={product.id} className="alert-item">
+                                <span className="product-name">{product.name}</span>
+                                <span className="stock-quantity warning">
+                                    Only {product.stock_quantity} left in stock!
+                                </span>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+            )}
 
             <div className="report-form">
                 <h2>Product Report Filters</h2>
