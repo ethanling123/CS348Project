@@ -48,11 +48,11 @@ const Dashboard: React.FC = () => {
 
     useEffect(() => {
         axios
-            .get("${API_BASE_URL}/api/categories/")
+            .get(`${API_BASE_URL}/api/categories/`)
             .then((res) => setCategories(res.data))
             .catch((err) => console.error("Error fetching categories:", err));
         axios
-            .get("${API_BASE_URL}/api/suppliers/")
+            .get(`${API_BASE_URL}/api/suppliers/`)
             .then((res) => setSuppliers(res.data))
             .catch((err) => console.error("Error fetching suppliers:", err));
         fetchLowStockAlerts();

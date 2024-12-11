@@ -17,7 +17,7 @@ const CategoryList: React.FC = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get("${API_BASE_URL}/api/categories/");
+            const response = await axios.get(`${API_BASE_URL}/api/categories/`);
             setCategories(response.data);
         } catch (error) {
             console.error("Error fetching categories:", error);
@@ -26,7 +26,7 @@ const CategoryList: React.FC = () => {
 
     const addCategory = async () => {
         try {
-            await axios.post("${API_BASE_URL}/api/categories/", {
+            await axios.post(`${API_BASE_URL}/api/categories/`, {
                 name: newCategory,
             });
             setNewCategory("");
