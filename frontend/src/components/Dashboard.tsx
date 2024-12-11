@@ -47,6 +47,8 @@ const Dashboard: React.FC = () => {
     });
 
     useEffect(() => {
+        console.log("API_BASE_URL:", API_BASE_URL);
+
         axios
             .get(`${API_BASE_URL}/api/categories/`)
             .then((res) => setCategories(res.data))
