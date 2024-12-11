@@ -54,7 +54,7 @@ const ProductList: React.FC = () => {
 
     const fetchCategories = async () => {
         try {
-            const response = await axios.get("${API_BASE_URL}/api/categories/");
+            const response = await axios.get(`${API_BASE_URL}/api/categories/`);
             setCategories(response.data);
         } catch (error) {
             console.error("Error fetching categories:", error);
@@ -63,7 +63,7 @@ const ProductList: React.FC = () => {
 
     const fetchSuppliers = async () => {
         try {
-            const response = await axios.get("${API_BASE_URL}/api/suppliers/");
+            const response = await axios.get(`${API_BASE_URL}/api/suppliers/`);
             setSuppliers(response.data);
         } catch (error) {
             console.error("Error fetching suppliers:", error);
@@ -95,7 +95,7 @@ const ProductList: React.FC = () => {
 
     const addProduct = async () => {
         try {
-            await axios.post("${API_BASE_URL}/api/products/", newProduct);
+            await axios.post(`${API_BASE_URL}/api/products/`, newProduct);
             setNewProduct({
                 name: "",
                 description: "",
